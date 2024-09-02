@@ -1,0 +1,50 @@
+-- creamos la base de datos y la usamos
+create database if not exists BD82_05_ticketseller;
+
+use BD82_05_ticketseller;
+
+-- eliminar las tablas
+drop table if exists entradas;
+drop table if exists eventos;
+drop table if exists usuarios;
+
+
+
+-- en vez de una segunda tabla administradores ponemos un booleano
+create table usuarios(
+id int not null primary key,
+nombre varchar(20) not null, 
+ap1 varchar(20) not null, 
+ap2 varchar(20), 
+usuario varchar(10) not null unique, 
+pass varchar(50) not null, 
+dir varchar(50) not null, 
+tlf int,
+administrador boolean);
+
+-- para la foto se supone que se introduciría un link
+
+insert into usuarios values(1, 'Álvaro','Morata','','AMorata086','1234','calle de la Universidad','666013275',true);
+
+create table eventos (
+titulo varchar(20) not null primary key, 
+categoria varchar(20) not null, 
+fecha date not null, 
+ciudad varchar(10) not null, 
+sala int not null, 
+imagen varchar(50) not null);
+
+insert into eventos values("Slipknot", 'Concierto', '2022-12-05',' Leganés', 3,'concierto-leganés.png');
+
+create table entradas(
+id int not null, 
+evento varchar(20) not null, 
+tipo varchar(10) not null, 
+precio int not null, 
+propietario int not null, 
+disponible boolean not null,
+PRIMARY KEY (id),
+foreign key (evento) references eventos(titulo),
+foreign key (propietario) references usuarios(id));
+
+insert into entradas values(1,"Slipknot",'grada',300, 1,true);
